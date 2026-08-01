@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: #fff; }
+  * { box-sizing: border-box; }
+  a { color: #0b0b0b; text-decoration: none; }
+  a:hover { color: #0b0b0b; opacity: .55; }
+</style>
+</helmet>
+
+<div style="min-height:100vh; display:flex; flex-direction:column; background:#fff; color:#0b0b0b; font-family:'Molde','Archivo',Helvetica,Arial,sans-serif; font-weight:600;">
+
+  <header style="padding:48px 40px 0; display:flex; flex-direction:column; align-items:center; gap:22px;">
+    <div onClick="{{ goFilms }}" style="cursor:pointer;">
+      <img src="./logo-arvago.jpeg" alt="{{ artistName }}" style="height:120px; width:auto; display:block;">
+    </div>
+    <nav style="display:flex; gap:46px; justify-content:center; width:100%; border-top:1px solid #0b0b0b; border-bottom:1px solid #0b0b0b; padding:13px 0; font-size:12px; letter-spacing:.2em; text-transform:uppercase;">
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="6">
+        <div onClick="{{ item.go }}" style="cursor:pointer; display:flex; flex-direction:column; gap:3px;" style-hover="opacity:.45;">
+          <span>{{ item.label }}</span>
+          <sc-if value="{{ item.active }}" hint-placeholder-val="{{ false }}">
+            <div style="height:1px; background:#0b0b0b;"></div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </nav>
+  </header>
+
+  <main style="flex:1; padding:44px 40px 96px;">
+
+    <!-- FILMS -->
+    <sc-if value="{{ isFilms }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:34px 30px; max-width:1360px; margin:0 auto;">
+        <sc-for list="{{ films }}" as="f" hint-placeholder-count="6">
+          <div>
+            <div style="height:300px; position:relative;">
+              <img src="./img-films-placeholder-img.png" alt="{{ f.title }}" style="width:100%; height:100%; object-fit:cover; display:block;">
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:13px;">
+              <span style="font-size:24px; letter-spacing:-.015em;">{{ f.title }}</span>
+              <span style="font-family:ui-monospace,Menlo,monospace; font-weight:400; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#8a8681;">{{ f.format }} — {{ f.year }}</span>
+            </div>
+            <div style="font-size:14px; font-weight:400; line-height:1.7; color:#4a4744; margin-top:8px; max-width:560px; text-wrap:pretty;">{{ f.body }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <!-- PROJECTS -->
+    <sc-if value="{{ isProjects }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex; flex-direction:column; gap:28px; max-width:1360px; margin:0 auto;">
+        <sc-for list="{{ projects }}" as="p" hint-placeholder-count="3">
+          <div style="display:grid; grid-template-columns:420px 1fr; gap:40px; align-items:start; border-top:1px solid #dddad5; padding-top:24px;">
+            <div style="height:250px; position:relative;">
+              <img src="./img-projects-generic-img.png" alt="{{ p.title }}" style="width:100%; height:100%; object-fit:cover; display:block;">
+            </div>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div style="display:flex; align-items:baseline; justify-content:space-between;">
+                <span style="font-size:32px; letter-spacing:-.015em;">{{ p.title }}</span>
+                <span style="font-family:ui-monospace,Menlo,monospace; font-weight:400; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#8a8681;">{{ p.meta }}</span>
+              </div>
+              <div style="font-size:15px; font-weight:400; line-height:1.75; color:#4a4744; max-width:680px; text-wrap:pretty;">{{ p.body }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <!-- ABOUT -->
+    <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid; grid-template-columns:440px 1fr; gap:60px; align-items:start; max-width:1200px; margin:0 auto;">
+        <div style="height:560px; position:relative;">
+          <img src="./img-about-us-left.png" alt="Portrait" style="width:100%; height:100%; object-fit:cover; display:block;">
+        </div>
+        <div style="display:flex; flex-direction:column; gap:22px;">
+          <div style="font-size:28px; line-height:1.28; letter-spacing:-.012em; text-wrap:pretty;">Placeholder biography — two or three sentences describing the practice, where it began, and what the films keep returning to.</div>
+          <div style="font-size:15px; font-weight:400; line-height:1.8; color:#4a4744; text-wrap:pretty;">Placeholder paragraph. This is where the longer, essayistic text sits: the training, the move into moving image, the recurring interest in emptied interiors and landscapes photographed just before they change.</div>
+          <div style="font-size:15px; font-weight:400; line-height:1.8; color:#4a4744; text-wrap:pretty;">Placeholder paragraph. A second passage can cover method — shooting on film, working alone, editing over long periods — and the writing that accompanies each work.</div>
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px; border-top:1px solid #dddad5; padding-top:22px; font-size:13px; font-weight:400; line-height:1.7; color:#4a4744;">
+            <div><div style="font-family:ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#8a8681; margin-bottom:6px;">Based in</div>Tunis, Tunisia</div>
+            <div><div style="font-family:ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#8a8681; margin-bottom:6px;">Works with</div>16mm, Super 8, digital</div>
+            <div><div style="font-family:ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#8a8681; margin-bottom:6px;">Represented by</div>Placeholder Agency</div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- EXHIBITIONS -->
+    <sc-if value="{{ isExhibitions }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:70px; max-width:1200px; margin:0 auto;">
+        <div style="display:flex; flex-direction:column;">
+          <div style="font-family:ui-monospace,Menlo,monospace; font-weight:400; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#8a8681; padding-bottom:12px;">Selected screenings</div>
+          <sc-for list="{{ exhibitions }}" as="e" hint-placeholder-count="7">
+            <div style="display:grid; grid-template-columns:56px 1fr; gap:20px; padding:15px 0; border-top:1px solid #dddad5;">
+              <span style="font-family:ui-monospace,Menlo,monospace; font-weight:400; font-size:12px; color:#8a8681;">{{ e.year }}</span>
+              <div>
+                <div style="font-size:17px; letter-spacing:-.005em;">{{ e.venue }}</div>
+                <div style="font-size:12px; font-weight:400; color:#8a8681; margin-top:3px;">{{ e.note }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex; flex-direction:column;">
+          <div style="font-family:ui-monospace,Menlo,monospace; font-weight:400; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#8a8681; padding-bottom:12px;">Awards &amp; residencies</div>
+          <sc-for list="{{ awards }}" as="a" hint-placeholder-count="5">
+            <div style="display:grid; grid-template-columns:56px 1fr; gap:20px; padding:15px 0; border-top:1px solid #dddad5;">
+              <span style="font-family:ui-monospace,Menlo,monospace; font-weight:400; font-size:12px; color:#8a8681;">{{ a.year }}</span>
+              <div>
+                <div style="font-size:17px; letter-spacing:-.005em;">{{ a.venue }}</div>
+                <div style="font-size:12px; font-weight:400; color:#8a8681; margin-top:3px;">{{ a.note }}</div>
+              </div>
+            </div>
+          </sc-for>
+          <a href="#" style="margin-top:28px; font-family:ui-monospace,Menlo,monospace; font-weight:400; font-size:11px; letter-spacing:.14em; text-transform:uppercase; border-bottom:1px solid #0b0b0b; width:fit-content;">Download full CV (PDF)</a>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- PRESS -->
+    <sc-if value="{{ isPress }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex; flex-direction:column; max-width:1200px; margin:0 auto;">
+        <sc-for list="{{ press }}" as="p" hint-placeholder-count="4">
+          <div style="display:grid; grid-template-columns:1fr 280px; gap:60px; align-items:start; border-top:1px solid #dddad5; padding:28px 0;">
+            <div style="font-size:30px; line-height:1.32; letter-spacing:-.015em; text-wrap:pretty;">{{ p.quote }}</div>
+            <div style="display:flex; flex-direction:column; gap:6px; padding-top:6px;">
+              <span style="font-size:15px; letter-spacing:.04em;">{{ p.source }}</span>
+              <span style="font-family:ui-monospace,Menlo,monospace; font-weight:400; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#8a8681;">{{ p.meta }}</span>
+              <a href="#" style="font-family:ui-monospace,Menlo,monospace; font-weight:400; font-size:11px; letter-spacing:.12em; text-transform:uppercase; border-bottom:1px solid #0b0b0b; width:fit-content; margin-top:6px;">Read →</a>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <!-- CONTACT -->
+    <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid; grid-template-columns:1fr 420px; gap:70px; align-items:start; max-width:1200px; margin:40px auto 0;">
+        <div style="display:flex; flex-direction:column; gap:38px;">
+          <div style="font-size:56px; line-height:1.05; letter-spacing:-.025em; text-wrap:pretty;">For screenings, commissions and print requests</div>
+          <div style="display:flex; flex-direction:column; gap:26px;">
+            <div>
+              <div style="font-family:ui-monospace,Menlo,monospace; font-weight:400; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#8a8681; margin-bottom:8px;">General</div>
+              <a href="mailto:arvago.org@gmail.com" style="font-size:24px; letter-spacing:-.01em;">arvago.org@gmail.com</a>
+            </div>
+            <div>
+              <div style="font-family:ui-monospace,Menlo,monospace; font-weight:400; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#8a8681; margin-bottom:8px;">Elsewhere</div>
+              <div style="display:flex; gap:26px; font-size:17px;">
+                <a href="#">Vimeo</a><a href="https://instagram.com/arvago_org">Instagram</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div style="height:340px; position:relative;">
+            <img src="./img-contact.png" alt="Contact" style="width:100%; height:100%; object-fit:cover; display:block;">
+          </div>
+          <div style="font-size:14px; font-weight:400; line-height:1.7; color:#4a4744; text-wrap:pretty;">Placeholder note — studio address, or a line about response times, sits here.</div>
+        </div>
+      </div>
+    </sc-if>
+
+  </main>
+
+  <footer style="border-top:1px solid #0b0b0b; padding:20px 40px; display:flex; align-items:baseline; justify-content:space-between; font-size:11px; font-weight:400; letter-spacing:.16em; text-transform:uppercase; color:#8a8681;">
+    <span>{{ artistName }}. All rights reserved.</span>
+    <a href="mailto:arvago.org@gmail.com">arvago.org@gmail.com</a>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;artistName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Arvago&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1000}}">
+const PAGES = ["films", "projects", "exhibitions", "press", "about", "contact"];
+const LABELS = { films: "Films", projects: "Projects", about: "About", exhibitions: "Exhibitions", press: "Press", contact: "Contact" };
+
+class Component extends DCLogic {
+  state = { page: this.pageFromPath() };
+  pageFromPath() {
+    if (typeof location === "undefined") return "films";
+    const seg = location.pathname.replace(/\/+$/, "").split("/").pop() || "";
+    return PAGES.includes(seg) ? seg : "films";
+  }
+  go(page) {
+    this.setState({ page });
+    if (typeof window !== "undefined") {
+      const path = page === "films" ? "/" : "/" + page;
+      if (location.pathname !== path) history.pushState({}, "", path);
+      window.scrollTo(0, 0);
+    }
+  }
+  componentDidMount() {
+    const fromPath = this.pageFromPath();
+    if (fromPath !== this.state.page) this.setState({ page: fromPath });
+    this._onPop = () => this.setState({ page: this.pageFromPath() });
+    window.addEventListener("popstate", this._onPop);
+  }
+  componentWillUnmount() {
+    if (this._onPop) window.removeEventListener("popstate", this._onPop);
+  }
+  renderVals() {
+    const name = (this.props.artistName ?? "Arvago").trim();
+    const page = this.state.page;
+    const films = [
+      { title: "Salt Interior", year: "2024", format: "16mm to digital, 22 min",
+        body: "A house is emptied over eleven days. The camera stays where the furniture used to be." },
+      { title: "The Hour Before Wind", year: "2023", format: "Digital, two channels, 41 min",
+        body: "Placeholder description — one or two lines of essayistic copy sit under each title." },
+      { title: "Notes on a Borrowed Room", year: "2022", format: "Super 8, silent, 16 min",
+        body: "Placeholder description — one or two lines of essayistic copy sit under each title." },
+      { title: "Quarry Light", year: "2020", format: "Digital, 63 min",
+        body: "Placeholder description — one or two lines of essayistic copy sit under each title." },
+      { title: "Everything the Tide Returns", year: "2018", format: "16mm, 9 min",
+        body: "Placeholder description — one or two lines of essayistic copy sit under each title." },
+      { title: "A Field, Counted Twice", year: "2018", format: "Digital, 28 min",
+        body: "Placeholder description — one or two lines of essayistic copy sit under each title." }
+    ];
+    return {
+      artistName: name.toUpperCase(),
+      navItems: PAGES.map(p => ({ label: LABELS[p], active: p === page, go: () => this.go(p) })),
+      goFilms: () => this.go("films"),
+      isFilms: page === "films",
+      isProjects: page === "projects",
+      isAbout: page === "about",
+      isExhibitions: page === "exhibitions",
+      isPress: page === "press",
+      isContact: page === "contact",
+      films: films.map((f, i) => Object.assign({ slot: "tl-film-" + (i + 1), caption: "still — " + f.title }, f)),
+      projects: [
+        { slot: "tl-p-1", caption: "installation view", title: "Ten Rooms", meta: "Installation — 2025",
+          body: "Placeholder description. Two or three sentences on the project: what it consisted of, where it was shown, and how it relates to the films." },
+        { slot: "tl-p-2", caption: "print series", title: "Field Recordings, Vol. II", meta: "Prints & sound — 2024",
+          body: "Placeholder description. A short paragraph of the same length keeps the rhythm of the page even before the real copy arrives." },
+        { slot: "tl-p-3", caption: "publication spread", title: "A Book of Interiors", meta: "Publication — 2023",
+          body: "Placeholder description. Mention collaborators, edition size, or the writing that accompanied the work." }
+      ],
+      exhibitions: [
+        { year: "2026", venue: "Placeholder Film Festival", note: "International competition" },
+        { year: "2025", venue: "Placeholder Museum, Tunis", note: "Solo screening programme" },
+        { year: "2025", venue: "Placeholder Biennale", note: "Two-channel installation" },
+        { year: "2024", venue: "Placeholder Cinémathèque", note: "Retrospective, four films" },
+        { year: "2023", venue: "Placeholder Kunsthalle", note: "Group exhibition" },
+        { year: "2022", venue: "Placeholder Arts Centre", note: "Premiere" },
+        { year: "2020", venue: "Placeholder Documentary Week", note: "Special mention" }
+      ],
+      awards: [
+        { year: "2025", venue: "Placeholder Foundation Grant", note: "Production support" },
+        { year: "2024", venue: "Placeholder Residency", note: "Six months, coastal studio" },
+        { year: "2023", venue: "Placeholder Jury Prize", note: "Short film competition" },
+        { year: "2021", venue: "Placeholder Fellowship", note: "Moving image" },
+        { year: "2019", venue: "Placeholder Award", note: "Emerging filmmaker" }
+      ],
+      press: [
+        { quote: "Placeholder pull quote from a review — one or two lines, set large, credited beside it.", source: "Placeholder Review", meta: "2025 — on Salt Interior" },
+        { quote: "Placeholder pull quote. Keeping these to a similar length holds the column even before the real text arrives.", source: "Placeholder Journal", meta: "2024 — interview" },
+        { quote: "Placeholder pull quote from a festival catalogue essay.", source: "Placeholder Quarterly", meta: "2023 — essay" },
+        { quote: "Placeholder pull quote from a newspaper notice.", source: "Placeholder Daily", meta: "2022 — screening notice" }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
